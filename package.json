@@ -1,0 +1,29 @@
+{
+  "name": "@manifoldfinance/ansible-mev-geth",
+  "version": "1.0.0",
+  "description": "ansible playbook",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/manifoldfinance/ansible-mev-geth.git"
+  },
+  "keywords": [
+    "ansible",
+    "playbook",
+    "mev",
+    "go-ethereum",
+    "geth"
+  ],
+  "author": "SEE CONTRIBUTORS",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/manifoldfinance/ansible-mev-geth/issues"
+  },
+  "homepage": "https://github.com/manifoldfinance/ansible-mev-geth#readme"
+}
