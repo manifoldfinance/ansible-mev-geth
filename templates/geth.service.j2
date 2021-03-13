@@ -1,0 +1,27 @@
+[Unit]
+Description=Geth Enterprise Ethereum java client
+After=syslog.target network.target
+
+[Service]
+User={{ geth_user }}
+Group={{ geth_group }}
+Environment=HOME=/home/{{ geth_user }}
+{% if geth_log4j_config_file != "" %}
+Environment=LOG4J_CONFIGURATION_FILE={{ geth_log4j_config_file }}
+{% endif %}
+{% if geth_env_opts %}
+Environment='GETH_OPTS={{geth_env_opts|map('to_json')|join(' ')}}'
+{% endif %}
+Type=simple
+{% if geth_cmdline_args %}
+ExecStart=/bin/sh -c "{{ geth_current_dir }}/geth --nodekey {{geth_node_private_key_file}} --config={{ geth_config_dir }}/config.toml  --nat extip:{{geth_host_ip}} {{geth_cmdline_args|map('to_json')|join(' ')|regex_replace('"','')}} >> {{geth_log_dir}}/geth.log 2>&1"
+{% else %}
+ExecStart=/bin/sh -c "{{ geth_current_dir }}/geth --nodekey {{geth_node_private_key_file}} --config={{ geth_config_dir }}/config.toml  --nat extip:{{geth_host_ip}} >> {{geth_log_dir}}/geth.log 2>&1"
+{% endif %}
+SuccessExitStatus=143
+Restart=on-failure
+RestartSec=10s
+
+[Install]
+WantedBy=multi-user.target
+

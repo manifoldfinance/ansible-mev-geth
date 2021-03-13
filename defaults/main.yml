@@ -1,0 +1,84 @@
+---
+
+# User and group
+geth_user: geth
+geth_group: "{{ geth_user }}"
+
+# Version to install
+# v1.10.1-mev2
+geth_download_url: "https://github.com/flashbots/mev-geth/archive/{{ geth_version }}.tar.gz"
+
+# Building from source
+geth_build_from_source: false
+geth_git_repo: "https://github.com/flashbots/mev-geth.git"
+geth_git_commit: "master"
+
+# Directory paths
+geth_base_dir: "/opt/geth"
+geth_install_dir: "{{ geth_base_dir }}/geth-{{ geth_version }}"
+geth_current_dir: "{{ geth_base_dir }}/current"
+geth_node_private_key_file: ""
+geth_config_dir: "/etc/geth"
+geth_config_template: "config.toml.j2"
+geth_data_dir: "{{ geth_base_dir }}/data"
+geth_log_dir: "/var/log/geth"
+geth_log4j_config_file: ""
+geth_profile_file: "/etc/profile.d/geth-path.sh"
+
+# Managed service config
+geth_managed_service: true
+geth_systemd_state: restarted
+geth_systemd_template: geth.service.j2
+geth_systemd_dir: /etc/systemd/system
+geth_launchd_template: org.ethereum.geth.plist.j2
+geth_launchd_dir: /Library/LaunchAgents
+
+
+# do this once only at the first bootstrap
+geth_init_database: False
+# geth config
+geth_network_id: 1
+geth_host_ip: ""
+geth_default_ip: "127.0.0.1"
+geth_network: mainnet
+geth_sync_mode: FAST
+geth_log_level: INFO
+geth_p2p_port: 30303
+geth_min_gas: 1000
+geth_miner_extra_data: ""
+geth_miner_coinbase: 0x
+geth_miner_enabled: "false"
+geth_rpc_http_enabled: "true"
+geth_rpc_http_host: 0.0.0.0
+geth_rpc_http_port: 8545
+# TODO: MEV RPC
+geth_rpc_http_api: ["ADMIN", "DEBUG", "NET", "ETH", "TRACE", "WEB3", "PLUGINS"]
+geth_rpc_http_cors_origins: ["*"]
+geth_rpc_ws_api: ["NET", "ETH", "WEB3"]
+geth_rpc_ws_enabled: "true"
+geth_rpc_ws_host: 0.0.0.0
+geth_rpc_ws_port: 8546
+geth_graphql_http_enabled: "true"
+geth_graphql_http_host: 0.0.0.0
+geth_graphql_http_port: 8547
+geth_graphql_http_cors_origins: ["*"]
+geth_metrics_host: 0.0.0.0
+geth_metrics_port: 9545
+geth_bootnodes: []
+geth_host_whitelist: ["*"]
+geth_cmdline_args: []
+geth_env_opts: []
+
+# using geth;s --nat extip:w.x.y.z
+geth_nat_prefix: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 255, 255]
+geth_nat_ip: []
+
+# privacy
+geth_privacy_enabled: "false"
+geth_privacy_url: "http://127.0.0.1:8888"
+geth_privacy_public_key_file: ""
+geth_privacy_marker_tx_signing_key_file: ""
+
+# internal state to maintain idempotency
+geth_state_updates: []
+

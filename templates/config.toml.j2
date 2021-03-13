@@ -1,0 +1,90 @@
+# https://geth.ethereum.org/docs/interface/private-network/
+
+[Eth]
+NetworkId = {{geth_network_id}}
+SyncMode = "fast"
+DiscoveryURLs = ["enrtree://AKA3AM6LPBYEUDMVNU3BSVQJ5AD45Y7YPOHJLEF6W26QOE4VTUDPE@all.mainnet.ethdisco.net"]
+NoPruning = false
+NoPrefetch = false
+LightPeers = 100
+UltraLightFraction = 75
+DatabaseCache = 512
+DatabaseFreezer = ""
+TrieCleanCache = 256
+TrieDirtyCache = 256
+TrieTimeout = 3600000000000
+EnablePreimageRecording = false
+EWASMInterpreter = ""
+EVMInterpreter = ""
+
+[Eth.Miner]
+GasFloor = 8000000
+GasCeil = 8000000
+GasPrice = 1000000000
+Recommit = 3000000000
+Noverify = false
+
+[Eth.Ethash]
+CacheDir = "ethash"
+CachesInMem = 2
+CachesOnDisk = 3
+CachesLockMmap = false
+DatasetDir = "/tmp/.ethash"
+DatasetsInMem = 1
+DatasetsOnDisk = 2
+DatasetsLockMmap = false
+PowMode = 0
+
+[Eth.TxPool]
+Locals = []
+NoLocals = false
+Journal = "transactions.rlp"
+Rejournal = 3600000000000
+PriceLimit = 1
+PriceBump = 10
+AccountSlots = 16
+GlobalSlots = 4096
+AccountQueue = 64
+GlobalQueue = 1024
+Lifetime = 10800000000000
+
+[Eth.GPO]
+Blocks = 20
+Percentile = 60
+
+[Shh]
+MaxMessageSize = 1048576
+MinimumAcceptedPOW = 2e-01
+RestrictConnectionBetweenLightClients = true
+
+[Node]
+DataDir = "{{geth_data_dir}}"
+InsecureUnlockAllowed = true
+IPCPath = "geth.ipc"
+NoUSB = true
+HTTPHost = "{{geth_rpc_http_host}}"
+HTTPPort = {{geth_p2p_port}}
+HTTPVirtualHosts = [{{geth_rpc_http_cors_origins|map('to_json')|join(',')}}]
+HTTPModules = [{{geth_rpc_http_api|map('to_json')|join(',')}}]
+WSHost = "{{geth_rpc_ws_host}}"
+WSPort = {{geth_rpc_ws_port}}
+WSModules = [{{geth_rpc_http_api|map('to_json')|join(',')}}]
+GraphQLHost = "{{geth_graphql_http_host}}"
+GraphQLPort = {{geth_graphql_http_port}}
+GraphQLVirtualHosts = [{{geth_graphql_http_cors_origins|map('to_json')|join(',')}}]
+
+[Node.P2P]
+MaxPeers = 50
+NoDiscovery = false
+BootstrapNodes = [{{geth_bootnodes|map('to_json')|join(',')}}]
+BootstrapNodesV5 = [{{geth_bootnodes|map('to_json')|join(',')}}]
+StaticNodes = []
+TrustedNodes = []
+ListenAddr = ":{{geth_p2p_port}}"
+EnableMsgEvents = false
+#NAT = [{{geth_nat_ip|map('to_json')|join(', ')|regex_replace('"','')}}]
+
+[Node.HTTPTimeouts]
+ReadTimeout = 30000000000
+WriteTimeout = 30000000000
+IdleTimeout = 120000000000

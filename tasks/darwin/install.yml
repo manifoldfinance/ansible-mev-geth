@@ -1,0 +1,10 @@
+---
+- name: Add Geth Brew tap
+  homebrew_tap:
+    name: ethereum/ethereum
+    state: present
+
+- name: Install Geth via brew
+  homebrew:
+    name: ethereum
+    state: present

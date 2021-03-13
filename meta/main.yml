@@ -1,0 +1,37 @@
+---
+galaxy_info:
+  author: ethereum
+  role_name: mev-geth
+  description: MEV Go-Ethereum is a fork of Go-Ethereum
+  company: ManifoldFinance
+  license: license (Apache)
+  min_ansible_version: 2.6
+  platforms:
+    - name: Debian
+      versions:
+        - jessie
+        - stretch
+        - buster
+    - name: Ubuntu
+      versions:
+        - focal
+        - xenial
+        - bionic
+        - cosmic
+    - name: EL
+      versions:
+        - 7
+    - name: Fedora
+      versions:
+        - 28
+        - 29
+        - 30
+    - name: MacOSX
+      versions:
+        - all
+  galaxy_tags:
+    - geth
+    - blockchain
+    - ethereum
+    - enterprise
+    - crypto

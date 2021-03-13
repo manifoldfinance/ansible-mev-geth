@@ -1,0 +1,49 @@
+---
+
+- name: Ensure we have sane configuration
+  fail:
+    msg: You must set "geth_git_repo" for this role to run when "geth_build_from_source" is enabled
+  when: not (geth_git_repo is defined) or geth_git_repo|length == 0
+
+- name: Check Go version
+  shell: go version | egrep -o '[0-9]\.[0-9]+\.[0-9]+'
+  register: go_version
+  changed_when: false
+  ignore_errors: true
+
+- name: Ensure Go is installed
+  fail:
+    msg: "You must have Go 1.13x or later installed. {{ 'No version found.' if go_version is failed else 'Found version ' + go_version.stdout }}"
+  when: go_version.stdout is version('1.13.0', '<')
+
+- name: Clone Geth Sources
+  git:
+    repo: "{{ geth_git_repo }}"
+    dest: '/tmp/geth'
+    version: "{{ geth_git_commit }}"
+
+- name: Build Geth
+  command: make geth
+  args:
+    chdir: /tmp/geth
+  changed_when: true
+
+- name: Get Geth Version
+  shell: "./build/bin/geth version | egrep -o '[0-9]\.[0-9]+\.[0-9]+-[a-zA-Z0-9]+\b' "
+  args:
+    chdir: /tmp/geth
+  register: geth_version_cmd
+  changed_when: false
+
+- name: Set Geth Version Fact
+  set_fact:
+    geth_version: "{{ geth_version_cmd.stdout }}"
+
+# puts the binary in the same folder structure as the real artifact to make it easy for the next step
+- name: Rename the Geth bin dir
+  command: mv /tmp/geth/build/bin /tmp/geth/build/geth-linux-amd64-{{ geth_version }}
+
+- name: Compress the artifact
+  archive:
+    path: /tmp/geth/build/geth-linux-amd64-{{ geth_version }}
+    dest: /tmp/geth/build/geth-linux-amd64-{{ geth_version }}.tar.gz
